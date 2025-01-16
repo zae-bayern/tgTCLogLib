@@ -1,0 +1,17 @@
+CC = gcc
+CFLAGS = -Wall -O2 -m32
+LDFLAGS = -shared -m32
+TARGET = tgLogLib.dll
+SRCS = tgLogLib_mqtt.c tgLogLib_rest.c tgLogLib_mysql.c tgLogLib_influxdb.c
+OBJS = $(SRCS:.c=.o)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) -o $@ $^
+
+%.o: %.c tgLogLib.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	del /f $(OBJS) $(TARGET)
